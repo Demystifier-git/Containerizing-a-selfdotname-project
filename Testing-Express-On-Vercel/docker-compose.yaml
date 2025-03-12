@@ -1,0 +1,24 @@
+version: '3.8'
+
+services:
+  # Node.js Application
+  app:
+    build: .
+    ports:
+      - "3000:3000"  # Exposing port 3000 on the host machine
+    environment:
+      - MONGO_URI=mongodb://mongo:27017/mydatabase  # MongoDB connection URI
+    depends_on:
+      - mongo  # Ensure MongoDB container is up first
+
+  # MongoDB Database
+  mongo:
+    image: mongo:latest
+    volumes:
+      - mongo_data:/data/db  # Persist data
+    ports:
+      - "27017:27017"  # Exposing MongoDB port
+
+volumes:
+  mongo_data:
+    driver: local
